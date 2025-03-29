@@ -16,15 +16,42 @@ import java.util.List;
 public class King extends Piece {
     /*The king has same direction of moves as the queen, but it can only move one tile.*/
     private final static int[] CANDIDATE_MOVE_COORDINATES = {-9, -8, -7, -1, 1, 7, 8, 9};
+    private final boolean isCastled;
+    private final boolean kingSideCastleCapable;
+    private final boolean queenSideCastleCapable;
 
-    public King(final Alliance pieceAlliance, final int piecePosition) {
+    public King(final Alliance pieceAlliance,
+                final int piecePosition,
+                final boolean kingSideCastleCapable,
+                final boolean queenSideCastleCapable) {
         super(PieceType.KING, piecePosition, pieceAlliance, true);
+        this.isCastled = false;
+        this.kingSideCastleCapable = kingSideCastleCapable;
+        this.queenSideCastleCapable = queenSideCastleCapable;
     }
 
     public King(final Alliance pieceAlliance,
                   final int piecePosition,
-                  final boolean isFirstMove) {
+                  final boolean isFirstMove,
+                  final boolean isCastled,
+                  final boolean kingSideCastleCapable,
+                  final boolean queenSideCastleCapable) {
         super(PieceType.KING, piecePosition, pieceAlliance, isFirstMove);
+        this.isCastled = isCastled;
+        this.kingSideCastleCapable = kingSideCastleCapable;
+        this.queenSideCastleCapable = queenSideCastleCapable;
+    }
+
+    public boolean isCastled() {
+        return this.isCastled;
+    }
+
+    public boolean isKingSideCastleCapable() {
+        return this.kingSideCastleCapable;
+    }
+
+    public boolean isQueenSideCastleCapable() {
+        return this.queenSideCastleCapable;
     }
 
     @Override
@@ -63,7 +90,11 @@ public class King extends Piece {
         /* this creates a new Bishop that is just like the current Bishop, but in a new location.
          * We could have replaced the original bishop, but since the classes are made immutable,
          * we need to create a new Bishop to be placed on the destination tile */
-        return new King(move.getMovedPiece().getPieceAlliance(), move.getDestinationCoordinate());
+        return new King(move.getMovedPiece().getPieceAlliance(), move.getDestinationCoordinate(),
+                        false,
+                         move.isCastlingMove(),
+                        false,
+                        false);
     }
 
     @Override

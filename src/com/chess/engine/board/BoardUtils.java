@@ -45,7 +45,7 @@ public class BoardUtils {
 
     private static Map<String, Integer> initializePositionToCoordinateMap() {
         final Map<String, Integer> positionToCoordinate = new HashMap<>();
-        for(int i = 0; i < NUM_TILES_PER_ROW; i++) {
+        for(int i = 0; i < NUM_TILES; i++) {
             positionToCoordinate.put(ALGEBREIC_NOTATION[i], i);
         }
         return ImmutableMap.copyOf(positionToCoordinate);
@@ -72,6 +72,13 @@ public class BoardUtils {
     public static boolean isValidTileCoordinate(final int coordinate) {
         return (coordinate >= 0 && coordinate < NUM_TILES);
     }
+
+//    debugging....
+//    private static void print() {
+//        for(String key : POSITION_TO_COORDINATE.keySet()) {
+//            System.out.println(key + ": " + POSITION_TO_COORDINATE.get(key));
+//        }
+//    }
 
     public static int getCoordinateAtPosition(final String position) {
         return POSITION_TO_COORDINATE.get(position);
